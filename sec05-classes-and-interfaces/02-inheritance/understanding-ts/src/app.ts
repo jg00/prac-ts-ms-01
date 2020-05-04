@@ -34,17 +34,42 @@ class Department {
   }
 }
 
+// 5 Inheritance
+// When you extend, the constructor of the base class is automatically inherited unless you specify a constructor in the derived class that requires a call to the parent constructor using super();
+class ITDepartment extends Department {
+  admins: string[];
+  constructor(id: string, admins: string[]) {
+    super(id, "IT");
+    this.admins = admins;
+  }
+}
+
+class AccountingDepartment extends Department {
+  constructor(id: string, private reports: string[]) {
+    super(id, "Accounting");
+  }
+
+  addReport(text: string) {
+    this.reports.push(text);
+  }
+
+  printReports() {
+    console.log(this.reports);
+  }
+}
+
 // Ex 2 - private and public modifiers
-const accounting = new Department("d1", "Accounting");
+// const accounting = new Department("d1", "Accounting");
+const it = new ITDepartment("d2", ["Ted"]);
 
-accounting.addEmployee("Mel");
-accounting.addEmployee("Dane");
+it.addEmployee("Mel");
+it.addEmployee("Dane");
 
-// accounting.employees[2] = "Anna"; // Issue is this field should be private
-// accounting.name = "NEW NAME";
+// it.employees[2] = "Anna"; // Issue is this field should be private
+// it.name = "NEW NAME";
 
-accounting.describe();
-accounting.printEmployeeInformation();
+it.describe();
+it.printEmployeeInformation();
 
 // Ex 1 - 'this' hint on describe(this: Department)
 /* 
@@ -64,3 +89,7 @@ accounting.printEmployeeInformation();
   // accountingCopy.describe.call({ name: "Sailor" });
   // accountingCopy.describe.bind({ name: "Sailor2" })();
 */
+
+const accounting = new AccountingDepartment("d3", []);
+accounting.addReport("Something went wrong...");
+accounting.printReports();
