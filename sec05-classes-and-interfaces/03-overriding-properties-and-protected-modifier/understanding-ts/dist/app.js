@@ -46,6 +46,12 @@ var AccountingDepartment = (function (_super) {
         _this.reports = reports;
         return _this;
     }
+    AccountingDepartment.prototype.addEmployee = function (name) {
+        if (name === "Max") {
+            return;
+        }
+        this.employees.push(name);
+    };
     AccountingDepartment.prototype.addReport = function (text) {
         this.reports.push(text);
     };
@@ -54,12 +60,19 @@ var AccountingDepartment = (function (_super) {
     };
     return AccountingDepartment;
 }(Department));
-var it = new ITDepartment("d2", ["Ted"]);
+console.log("-- IT Department --");
+var it = new ITDepartment("d1", ["Max"]);
 it.addEmployee("Mel");
 it.addEmployee("Dane");
 it.describe();
 it.printEmployeeInformation();
-var accounting = new AccountingDepartment("d3", []);
-accounting.addReport("Something went wrong...");
+console.log(it);
+console.log("");
+console.log("-- Accounting Department --");
+var accounting = new AccountingDepartment("d2", []);
+accounting.addReport("Something went wrong..");
+accounting.addEmployee("Max");
+accounting.addEmployee("Manu");
 accounting.printReports();
+accounting.printEmployeeInformation();
 //# sourceMappingURL=app.js.map
