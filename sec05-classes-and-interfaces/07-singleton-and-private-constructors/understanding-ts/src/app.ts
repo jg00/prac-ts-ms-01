@@ -40,8 +40,10 @@ class ITDepartment extends Department {
   }
 }
 
+// Using Singleton make sure we only have one instance.
 class AccountingDepartment extends Department {
   private lastReport: string;
+  private static instance: AccountingDepartment; // variable of this class type.
 
   // Getter and setter
   get mostRecentReport() {
@@ -58,9 +60,20 @@ class AccountingDepartment extends Department {
     this.addReport(value);
   }
 
-  constructor(id: string, private reports: string[]) {
+  // By making the constructor 'private' now we cannot instantiate ie can't call 'new'.  However we can still get and instance through static method.
+  private constructor(id: string, private reports: string[]) {
     super(id, "Accounting");
     this.lastReport = reports[0];
+  }
+
+  // Singleton
+  static getInstance() {
+    // Check if an instance already exists else return new instrance.
+    if (AccountingDepartment.instance) {
+      return this.instance;
+    }
+    this.instance = new AccountingDepartment("d2", []);
+    return this.instance;
   }
 
   describe() {
@@ -85,7 +98,7 @@ class AccountingDepartment extends Department {
   }
 }
 
-//  IT
+//  IT Department Object
 console.log(`**** IT Department ****`);
 const employee1 = Department.createEmployee("Max");
 console.log(employee1, Department.fiscalYear);
@@ -99,9 +112,12 @@ it.printEmployeeInformation();
 console.log(it);
 console.log("");
 
-// Accounting
+// Accounting Department Object
 console.log(`**** Accounting Department ****`);
-const accounting = new AccountingDepartment("d2", []);
+// const accounting = new AccountingDepartment("d2", []); // Can no longer create instance directly because of private constructor.
+const accounting = AccountingDepartment.getInstance();
+const accounting2 = AccountingDepartment.getInstance();
+console.log(accounting, accounting2); // Exactly equal since we only want one instance
 
 // Set
 accounting.mostRecentReport = "Year end report";
